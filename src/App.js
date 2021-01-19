@@ -13,16 +13,20 @@ class App extends Component {
               <header>
                 <nav className="navbar">
                     <img className="logo" src="images/headset_logo.png" alt="bloc jams logo" />
-                    <Link to='/'>Landing</Link>
-                    <Link to='/library'>Library</Link>
+                    <h1>Musician</h1>
+                    <div className="links-container">
+                        <Link className='navbar-link' to='/'>Home</Link>
+                        <Link className='navbar-link' to='/library'>Library</Link>
+                    </div>
                 </nav>
-                <h1>Musician</h1>
               </header>
-              <main>
-                <Route exact path="/" component={Landing} />
-                <Route path="/library" component={Library} />
-                <Route path="/album/:slug" component={Album} />
-              </main>
+              <div>
+                <main>
+                    <Route exact path="/" component={Landing} />
+                    <Route path="/library" component={Library} />
+                    <Route path="/album/:slug" component={Album} />
+                </main>
+              </div>
             </div>
           );
         }

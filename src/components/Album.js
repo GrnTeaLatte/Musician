@@ -1,17 +1,48 @@
 import React, { Component } from 'react';
 import albumData from './../data/albums';
+import './styles/album.css';
 
 class Album extends Component {
     constructor(props) {
         super(props);
 
         const album = albumData.find( album => {
-            return album.slug == this.props.match.params.slug
+            return album.slug === this.props.match.params.slug
         });
 
         this.state = {
-            album: album
+            album: album,
+            currentSong: album.songs[0],
+            isPlaying: false
         };
+
+        this.audioElement = document.createElement('audio');
+        this.audioElement.src = album.songs[0].audioSrc;
+    }
+
+    play() {
+        this.audioElement.play();
+        this.setState({ isPlaying: true });
+    }
+
+    pause() {
+        this.audioElement.pause();
+        this.setState({ isPlaying: false });
+    }
+
+    setSong(song) {
+        this.audioElement.src = song.audioSrc;
+        this.setState({ currentSong: song });
+    }
+
+    handleSongClick(song) {
+        const isSameSong = this.state.currentSong === song;
+        if (this.state.isPlaying && isSameSong) {
+            this.pause();
+        } else {
+            if (!isSameSong) { this.setSong(song); }
+            this.play();
+        }
     }
 
     render() {
@@ -32,10 +63,20 @@ class Album extends Component {
                         <col id="song-duration-column" />
                     </colgroup>
                     <tbody>
+                        {
+                            this.state.album.songs.map( (song, index) =>
+                                <tr className="song" key={index} onClick={() => this.handleSongClick(song)}>
+                                    <td className="song-item-number">{index + 1}</td>
+                                    <td className="song-item-title">{song.title}</td>
+                                    <td className="song-item-duration">{song.duration}</td>
+                                </tr>
+                            )
+                        }
                     </tbody>
                 </table>
             </section>
         );
+        <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
     }
 }
 
