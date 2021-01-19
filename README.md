@@ -8,7 +8,6 @@
 
 ```python
 
-import OS
 
 
 ```
