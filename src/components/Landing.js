@@ -1,10 +1,12 @@
 import React from 'react';
 import Aux from '../hoc/Aux';
 import './styles/main.css';
+import Search from './Search';
 
 const Landing = (props) => (
     <Aux>
         <div className="bg_image"/>
+        <Search/>
          <section className="landing">
             <section className="selling-points">
               <div className="point">
