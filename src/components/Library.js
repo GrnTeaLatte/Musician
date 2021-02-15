@@ -1,28 +1,89 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import albumData from './../data/albums';
+import SpotifyWebApi from 'spotify-web-api-js';
+const spotifyApi = new SpotifyWebApi();
 
 class Library extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {albums: albumData};
+    constructor(props){
+        super();
+        const params = this.getHashParams();
+        const token = props.location.data.token;
+        if (token) {
+            spotifyApi.setAccessToken(token);
+        }
+        this.state = {
+            albums: [],
+            loggedIn: token ? true : false,
+            nowPlaying: { name: 'Not Checked', albumArt: '' }
+        };
+    }
+    getHashParams() {
+        var hashParams = {};
+        var e, r = /([^&;=]+)=?([^&;]*)/g,
+            q = window.location.hash.substring(1);
+        e = r.exec(q)
+        while (e) {
+           hashParams[e[1]] = decodeURIComponent(e[2]);
+           e = r.exec(q);
+        }
+        return hashParams;
+    }
+
+    getNowPlaying(){
+          spotifyApi.getMyCurrentPlaybackState()
+            .then((response) => {
+              this.setState({
+                nowPlaying: {
+                    name: response.item.name,
+                    albumArt: response.item.album.images[0].url
+                  }
+              });
+            })
+    }
+
+    getSavedAlbums(){
+      spotifyApi.getMySavedAlbums()
+        .then((response) => {
+            console.log(response)
+            this.setState({
+                albums:response.items.map( (item, index) => { return item.album } )
+            })
+        });
     }
 
     render() {
         return (
-            <section className='library'>
+            <div>
+                <div>
+                    Now Playing: { this.state.nowPlaying.name }
+                </div>
+                <div>
+                    <img src={this.state.nowPlaying.albumArt} style={{ height: 150 }}/>
+                </div>
                 {
-                    this.state.albums.map( (album, index) =>
-                        <Link to={`/album/${album.slug}`} key={index}>
-                            {album.title}
-                            <img src={album.albumCover} alt={album.title} />
-                            <div>{album.title}</div>
-                            <div>{album.artist}</div>
-                            <div>{album.songs.length} songs</div>
-                        </Link>
-                    )
+                this.state.loggedIn &&
+                    <button onClick={() => this.getNowPlaying()}>
+                      Check Now Playing
+                    </button>
                 }
-            </section>
+                {
+                this.state.loggedIn &&
+                    <button onClick={() => this.getSavedAlbums()}>
+                      View My Albums
+                    </button>
+                }
+                <section className='library'>
+                    {
+                        this.state.albums.map( (album, index) =>
+                            <Link to={`/album/${album.slug}`} key={index}>
+                                {album.title}
+                                <img src={album.images[0]} alt={album.name} />
+                            </Link>
+                        )
+                    }
+                </section>
+            </div>
         );
     }
 }
