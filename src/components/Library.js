@@ -2,20 +2,28 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import albumData from './../data/albums';
 import SpotifyWebApi from 'spotify-web-api-js';
+import Results from './Results';
 const spotifyApi = new SpotifyWebApi();
 
 class Library extends Component {
     constructor(props){
         super();
-        const params = this.getHashParams();
-        const token = props.location.data.token;
-        if (token) {
-            spotifyApi.setAccessToken(token);
+        let token = '';
+        let results = [];
+        if(props.location.data) {
+            const params = this.getHashParams();
+            token = props.location.data.token;
+            if (token) {
+                spotifyApi.setAccessToken(token);
+            }
+            results = props.location.data.results;
         }
+
         this.state = {
             albums: [],
             loggedIn: token ? true : false,
-            nowPlaying: { name: 'Not Checked', albumArt: '' }
+            nowPlaying: { name: 'Not Checked', albumArt: '' },
+            results: results
         };
     }
     getHashParams() {
@@ -52,6 +60,7 @@ class Library extends Component {
         });
     }
 
+
     render() {
         return (
             <div>
@@ -82,6 +91,9 @@ class Library extends Component {
                             </Link>
                         )
                     }
+                </section>
+                <section>
+                    <Results results={this.state.results}/>
                 </section>
             </div>
         );
