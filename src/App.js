@@ -56,7 +56,7 @@ class App extends Component {
                     <div className="links-container">
                         <Link className='navbar-link' to='/'>Home</Link>
                         <Link className='navbar-link' to={{pathname: '/library', data: {token: this.state.token}}}>Library</Link>
-                        <a className='navbar-link' href='http://localhost:8888'> Login to Spotify </a>
+                        <a className='navbar-link' href='https://musician-login.herokuapp.com/'> Login to Spotify </a>
                     </div>
                 </nav>
               </header>
