@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect, Route, Link } from 'react-router-dom';
-import './styles/search.css';
+import classes from './styles/search.css';
 
 import SpotifyWebApi from 'spotify-web-api-js';
 const spotifyApi = new SpotifyWebApi();
@@ -58,10 +58,12 @@ class Search extends Component {
             return (<Redirect to={{pathname: '/library', data: data}}/>)
         }
         return (
+        <div class="search_container">
             <form class="search" onSubmit={this.handleSubmit}>
-                <input type="text" value={this.state.queryTerm} onChange={this.handleChange} />
-                <button type="submit" value="Search" placeholder="Find your music..." required>Search</button>
+                <input type="text" placeholder="First, Login to Spotify..." value={this.state.queryTerm} onChange={this.handleChange} />
+                <button type="submit">Search</button>
             </form>
+        </div>
         )
     }
 }

@@ -53,13 +53,23 @@
     display: table;
     max-width: 50px; /* 40px is within the navbars height of 50px */
     height: auto; /* Using auto maintains the logos original width/height ratio */
-
 }
+
 
 .bg_image {
     background-image: url('./components/chair.jpg');
     background-size: 100%;
-    height: 600px;
+}
+
+@media (min-width: 750px) {
+    .bg_image {
+        height: 500px;
+    }
+}
+@media (max-width: 750px) {
+    .bg_image {
+        height: 300px;
+    }
 }
 
  .navbar .links-container {
@@ -95,9 +105,14 @@
 
  }
 
+ @media (max-width: 659px) {
+    .links-container .navbar-link {
+        display: none;
+    }
+ }
+
  h1 {
     font-family: "PT Serif";
-    font-style: italic;
  }
 
  body {
