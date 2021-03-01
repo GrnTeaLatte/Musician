@@ -1,0 +1,31 @@
+.results {
+    width: 100%;
+}
+
+.left-align {
+    text-align: left;
+}
+
+table {
+    border-spacing: 0;
+    border: 1px solid green;
+}
+
+table tr {
+  :last-child {
+    td {
+      border-bottom: 0;
+    }
+  }
+}
+
+table th, td {
+  margin: 0;
+  padding: 0.5rem;
+  border-bottom: 1px solid green;
+  border-right: 1px solid green;
+
+  :last-child {
+    border-right: 0;
+  }
+}

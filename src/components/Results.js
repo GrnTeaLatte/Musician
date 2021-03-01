@@ -1,23 +1,52 @@
-import React, { Component } from 'react';
+import React, { useMemo } from 'react';
+import Table from './Table';
+import './styles/table.css';
 
-class Results extends Component {
-    constructor(props) {
-        super(props);
-        this.state= {
-            results: props.results
-        }
-    }
+function Results(data) {
+    const columns = useMemo(
+        () => [
+            {
+                Header: "Title",
+                accessor: "name",
+                style: {
+                  textAlign: 'left',
+                },
+            },
+            {
+                Header: "Artist",
+                accessor: "artists[0].name",
+                style: {
+                  textAlign: 'left',
+                },
+            },
+            {
+                Header: "Album Type",
+                accessor: "album.album_type",
+            },
+            {
+                Header: "Track Number",
+                accessor: "track_number",
+            },
+            {
+                Header: "Release Date",
+                accessor: "album.release_date",
+            },
+            {
+                Header: "Song Length",
+                accessor: "duration_ms",
+                Cell: ({ cell: { value } }) => {
+                  var minutes = Math.floor(value / 60000);
+                  var seconds = ((value % 60000) / 1000).toFixed(0);
+                  return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+                }
+            }
+        ]
+    )
+    const tracks = data.results ? data.results : [];
 
-    render() {
-        const tracks = this.state.results ? this.state.results : [];
-        const listItems = tracks.map((track) =>
-            <li>{track.name}</li>
-        );
-
-        return (
-            <ul>{listItems}</ul>
-        );
-    }
+    return (
+        <Table columns={columns} data={tracks}/>
+    );
 }
 
 export default Results;

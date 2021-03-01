@@ -49,7 +49,6 @@ class Album extends Component {
         return (
             <section className="album">
                 <section id="album-info">
-                    <img id="album-cover-art" src={this.state.album.albumCover} alt={this.state.album.title}/>
                     <div className="album-details">
                         <h1 id="album-title">{this.state.album.title}</h1>
                         <h2 className="artist">{this.state.album.artist}</h2>
@@ -65,7 +64,7 @@ class Album extends Component {
                     <tbody>
                         {
                             this.state.album.songs.map( (song, index) =>
-                                <tr className="song" key={index} onClick={() => this.handleSongClick(song)}>
+                                <tr className="song" key={index}>
                                     <td className="song-item-number">{index + 1}</td>
                                     <td className="song-item-title">{song.title}</td>
                                     <td className="song-item-duration">{song.duration}</td>
@@ -76,7 +75,6 @@ class Album extends Component {
                 </table>
             </section>
         );
-        <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
     }
 }
 

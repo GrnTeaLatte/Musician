@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import albumData from './../data/albums';
 import SpotifyWebApi from 'spotify-web-api-js';
 import Results from './Results';
+import './styles/library.css';
+
 const spotifyApi = new SpotifyWebApi();
 
 class Library extends Component {
@@ -64,35 +66,34 @@ class Library extends Component {
     render() {
         return (
             <div>
-                <div>
-                    Now Playing: { this.state.nowPlaying.name }
-                </div>
-                <div>
-                    <img src={this.state.nowPlaying.albumArt} style={{ height: 150 }}/>
-                </div>
-                {
-                this.state.loggedIn &&
-                    <button onClick={() => this.getNowPlaying()}>
-                      Check Now Playing
-                    </button>
-                }
-                {
-                this.state.loggedIn &&
-                    <button onClick={() => this.getSavedAlbums()}>
-                      View My Albums
-                    </button>
-                }
-                <section className='library'>
+                <section className='library_section'>
+                    <div>
+                        Now Playing: { this.state.nowPlaying.name }
+                    </div>
+                    <div>
+                        <img src={this.state.nowPlaying.albumArt} style={{ height: 150 }}/>
+                    </div>
+                    {
+                    this.state.loggedIn &&
+                        <button onClick={() => this.getNowPlaying()}>
+                          Check Now Playing
+                        </button>
+                    }
+                    {
+                    this.state.loggedIn &&
+                        <button onClick={() => this.getSavedAlbums()}>
+                          View My Albums
+                        </button>
+                    }
+                </section>
+                <section className='library_section'>
                     {
                         this.state.albums.map( (album, index) =>
-                            <Link to={`/album/${album.slug}`} key={index}>
-                                {album.title}
-                                <img src={album.images[0]} alt={album.name} />
-                            </Link>
+                           <div>{album.name}</div>
                         )
                     }
                 </section>
-                <section>
+                <section className='library_section'>
                     <Results results={this.state.results}/>
                 </section>
             </div>
