@@ -48,9 +48,6 @@ class App extends Component {
     }
     render() {
         let authorizationUrl = 'https://musician-login.herokuapp.com/';
-        if (process.env.NODE_ENV === 'development') {
-            authorizationUrl = 'http://localhost:8888'
-        }
         return (
             <div className="App">
               <header>
