@@ -5,6 +5,7 @@ import './App.css';
 import Landing from './components/Landing';
 import Library from './components/Library';
 import Album from './components/Album';
+import Cookies from 'js-cookie';
 
 import SpotifyWebApi from 'spotify-web-api-js';
 const spotifyApi = new SpotifyWebApi();
@@ -13,7 +14,8 @@ class App extends Component {
     constructor(){
         super();
         const params = this.getHashParams();
-        const token = params.access_token;
+        Cookies.set('token', params['access_token'])
+        const token = Cookies.get('token');
         if (token) {
             spotifyApi.setAccessToken(token);
         }
@@ -23,6 +25,7 @@ class App extends Component {
             nowPlaying: { name: 'Not Checked', albumArt: '' }
         };
     }
+
     getHashParams() {
         var hashParams = {};
         var e, r = /([^&;=]+)=?([^&;]*)/g,
@@ -47,7 +50,8 @@ class App extends Component {
             })
     }
     render() {
-        let authorizationUrl = 'https://musician-login.herokuapp.com/';
+//        let authorizationUrl = 'https://musician-login.herokuapp.com/';
+        let authorizationUrl = 'http://localhost:3001';
         return (
             <div className="App">
               <header>
@@ -56,7 +60,7 @@ class App extends Component {
                     <h1>Musician</h1>
                     <div className="links-container">
                         <Link className='navbar-link' to='/'>Home</Link>
-                        <Link className='navbar-link' to={{pathname: '/library', data: {token: this.state.token}}}>Library</Link>
+                        <Link className='navbar-link' to='/library'>Library</Link>
                         <a className='navbar-link' href={authorizationUrl}> Login to Spotify </a>
                     </div>
                 </nav>
