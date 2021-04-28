@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect, Route, Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import './styles/search.css';
 import Cookies from 'js-cookie';
 
@@ -10,13 +10,16 @@ class Search extends Component {
     constructor(props) {
         super(props);
         const token = Cookies.get('token');
-        console.log(token)
+//      Set session token on Spotify Web API instance
         spotifyApi.setAccessToken(token);
+//      Initialize Search state to have an empty query
         this.state = {
             queryTerm: '',
             token: token
         };
+//      Add handler to changes that sets the queryterm on keypress
         this.handleChange = this.handleChange.bind(this);
+//      Add Handler to submission to send search request
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -28,11 +31,11 @@ class Search extends Component {
                 })
             });
     }
-
+//  Calls Spotify search API with queryterm
     handleChange(event) {
         this.setState({queryTerm: event.target.value});
     }
-
+//  Expect to return a list of tracks
     handleSubmit(event) {
         this.searchSpotify();
         event.preventDefault();

@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import albumData from './../data/albums';
 import SpotifyWebApi from 'spotify-web-api-js';
 import Results from './Results';
 import './styles/library.css';

@@ -7,23 +7,11 @@ import Library from './components/Library';
 import Album from './components/Album';
 import Cookies from 'js-cookie';
 
-import SpotifyWebApi from 'spotify-web-api-js';
-const spotifyApi = new SpotifyWebApi();
-
 class App extends Component {
     constructor(){
         super();
         const params = this.getHashParams();
         Cookies.set('token', params['access_token'])
-        const token = Cookies.get('token');
-        if (token) {
-            spotifyApi.setAccessToken(token);
-        }
-        this.state = {
-            token: token,
-            loggedIn: token ? true : false,
-            nowPlaying: { name: 'Not Checked', albumArt: '' }
-        };
     }
 
     getHashParams() {
@@ -38,19 +26,8 @@ class App extends Component {
         return hashParams;
     }
 
-    getNowPlaying(){
-          spotifyApi.getMyCurrentPlaybackState()
-            .then((response) => {
-              this.setState({
-                nowPlaying: {
-                    name: response.item.name,
-                    albumArt: response.item.album.images[0].url
-                  }
-              });
-            })
-    }
     render() {
-        let authorizationUrl = 'https://musician-login.herokuapp.com/';
+        let authorizationUrl = 'http://musician-login.herokuapp.com/';
         return (
             <div className="App">
               <header>
