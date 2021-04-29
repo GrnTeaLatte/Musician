@@ -22,16 +22,15 @@ class Search extends Component {
 //      Add Handler to submission to send search request
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-
+//  Calls Spotify search API with queryterm
     searchSpotify () {
         spotifyApi.searchTracks(this.state.queryTerm)
             .then((response) => {
                 this.setState({
-                    results:response.tracks.items
+                    results: response.tracks.items
                 })
             });
     }
-//  Calls Spotify search API with queryterm
     handleChange(event) {
         this.setState({queryTerm: event.target.value});
     }

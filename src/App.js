@@ -13,7 +13,7 @@ class App extends Component {
         const params = this.getHashParams();
         Cookies.set('token', params['access_token'])
     }
-
+//    need to parse access token to use as session token to make requests to Spotify
     getHashParams() {
         var hashParams = {};
         var e, r = /([^&;=]+)=?([^&;]*)/g,
